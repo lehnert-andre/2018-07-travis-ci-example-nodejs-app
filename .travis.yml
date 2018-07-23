@@ -1,14 +1,32 @@
 language: node_js
 node_js:
-  - "10"
-before_install:
-  - npm i -g npm@latest
-cache:
-  directories:
-    - "node_modules"
+  - "10"  
+  
+sudo: true
+dist: trusty
+
+branches:
+  only:
+  - master
+
+before_script:
+ - export CHROME_BIN=/usr/bin/google-chrome
+ - export DISPLAY=:99.0
+ - sh -e /etc/init.d/xvfb start
+ - sudo apt-get update
+ - sudo apt-get install -y libappindicator1 fonts-liberation
+ - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+ - sudo dpkg -i google-chrome*.deb
+
+script: 
+  - ng test --watch false -cc
+  - npm run e2e
+  - ng build -bh "https://lehnert-andre.github.io/travis-ci-example-nodejs-app/"
+
 deploy:
-  provider: heroku
-  api_key:
-    secure: "ffebea53-bbd9-4c15-b975-c97f205925ff"
-  on: master  
-    
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  local_dir: dist
+  on:
+    branch: master
