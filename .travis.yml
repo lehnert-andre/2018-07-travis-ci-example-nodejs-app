@@ -21,7 +21,7 @@ before_script:
 script: 
   - ng test --watch false
   - npm run e2e
-  - ng build -bh "https://lehnert-andre.github.io/travis-ci-example-nodejs-app/"
+  - ng build --base-href "https://lehnert-andre.github.io/travis-ci-example-nodejs-app/"
 
 deploy:
   provider: pages
