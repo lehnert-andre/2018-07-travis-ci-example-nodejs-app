@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "10"
+before_install:
+  - npm i -g npm@latest
+cache:
+  directories:
+    - "node_modules"
+deploy:
+  provider: heroku
+  api_key:
+    secure: "ffebea53-bbd9-4c15-b975-c97f205925ff"
+  on: master  
+    
